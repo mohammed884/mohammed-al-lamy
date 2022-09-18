@@ -20,19 +20,19 @@ router.post("/", async (req, res) => {
         const data = col.data[x];
         if (data.length > 8 && Number.isNaN(Number(nameOrSerialNumber)) && data[8] === nameOrSerialNumber) {
           nameOrSerialNumber= ""
-          return res.render("./index.ejs", {data});
+          return res.render("./index.ejs", {data, isAdmin: req.cookies.accessToken ? true : false });
         }
         if (data.length > 8 && data[9] === Number(nameOrSerialNumber)) {
           nameOrSerialNumber= ""
-          return res.render("./index.ejs", {data})
+          return res.render("./index.ejs", {data,isAdmin: req.cookies.accessToken ? true : false})
         }
       }
     }
     req.flash('danger', Number.isNaN(Number(nameOrSerialNumber)) ? "لا يوجد طالب بهذا الاسم" : "لا يوجد طالب بهذا التسلسل");
-    res.render("./index.ejs", {data:[]})
+    res.render("./index.ejs", {data:[],isAdmin: req.cookies.accessToken ? true : false})
   } catch (e) {
     console.log(err);
-    res.render("./index.ejs", {data:[]})
+    res.render("./index.ejs", {data:[],isAdmin: req.cookies.accessToken ? true : false})
   }
 });
 module.exports = router;

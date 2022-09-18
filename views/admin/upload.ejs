@@ -37,6 +37,11 @@
                         <%=messages.danger%>
                     </span>
                     <%}%>
+                    <% if (messages.success) { %>
+                        <span class="w-[100%] bg-green-100  mt-3 rounded-sm border-r-2 border-green-600 p-2">
+                            <%=messages.success%>
+                        </span>
+                        <%}%>
                         <label for="file" id="file-input-label"
                             class="w-[100%] h-[47px] flex items-center  border-b border-b-light_green mt-5 rounded-[5px] p-2 cursor-pointer">
                             <span>اختر فايل</span>

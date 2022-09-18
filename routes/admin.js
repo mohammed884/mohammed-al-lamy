@@ -7,32 +7,27 @@ const adminMiddleware = require("../middleware/admin")
 const router = express.Router();
 
 const storage = multer.diskStorage({
-    fileFilter: function (req, file, callback) {
-        var ext = path.extname(file.originalname);
-        if (ext !== ".xlsx") return cb(new Error("File type is not supported"), false);
-    },
     destination: function (req, file, cb) {
         cb(null, path.resolve() + "/public/uploads")
     },
     filename: function (req, file, cb) {
-        cb(null, "data.xlsx")
-    },
-    limits: {
-        files: 1,
+        cb(null, `data${path.extname(file.originalname)}`)
     },
 });
 
-const upload = multer({ storage });
+const upload = multer({
+    storage,
+});
 router.get("/login", adminMiddleware.isLogin, (req, res) => {
     try {
-        res.render("./admin/login.ejs", {isAdmin:req.cookies.accessToken ? true :false})
+        res.render("./admin/login.ejs", { isAdmin: req.cookies.accessToken ? true : false })
     } catch (err) {
         console.log(err);
     }
 })
 router.get("/panel", adminMiddleware.isAdmin, (req, res) => {
     try {
-        res.render("./admin/panel.ejs", {isAdmin:req.cookies.accessToken ? true :false})
+        res.render("./admin/panel.ejs", { isAdmin: req.cookies.accessToken ? true : false })
     } catch (err) {
         console.log(err);
     }
@@ -40,19 +35,24 @@ router.get("/panel", adminMiddleware.isAdmin, (req, res) => {
 })
 router.get("/upload", adminMiddleware.isAdmin, (req, res) => {
     try {
-        res.render("./admin/upload.ejs", {isAdmin:req.cookies.accessToken ? true :false})
+        res.render("./admin/upload.ejs", { isAdmin: req.cookies.accessToken ? true : false })
     } catch (err) {
         console.log(err);
     }
 })
 router.post("/upload", adminMiddleware.isAdmin, upload.single("file"), (req, res) => {
     try {
+        let ext = path.extname(req.file.filename);
+        if (ext !== ".xlsx") {
+            req.flash("danger", "صيغة الفايل يجب ان تكون (xlsx)");
+            return res.render("./admin/upload.ejs", { isAdmin: req.cookies.accessToken ? true : false })
+        }
         req.flash("success", "تم تحميل الفايل ينجاح")
-        res.render("./admin/upload.ejs")
+        res.render("./admin/upload.ejs", { isAdmin: req.cookies.accessToken ? true : false })
     } catch (err) {
         console.log(err);
         req.flash("danger", err.message)
-        res.render("./admin/upload.ejs")
+        res.render("./admin/upload.ejs", { isAdmin: req.cookies.accessToken ? true : false })
     }
 });
 router.post("/login", adminMiddleware.isLogout, (req, res) => {
@@ -77,10 +77,10 @@ router.post("/login", adminMiddleware.isLogout, (req, res) => {
 router.post("/logout", adminMiddleware.isAdmin, (req, res) => {
     try {
         res.cookie("accessToken", "logout", { maxAge: 1, httpOnly: true });
-        res.send({success:true})
+        res.send({ success: true })
     } catch (err) {
         console.log(err);
-        res.send({success:false})
+        res.send({ success: false })
 
     }
 })
