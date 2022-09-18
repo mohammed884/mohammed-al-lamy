@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/style.css">
+    <!-- <link rel="stylesheet" href="styles/index.css"> -->
+    <style>
+        @font-face {
+            font-family: "cairo";
+            src: url("../fonts/static/Cairo-Regular.ttf");
+            font-display: swap;
+        }
+
+        * {
+            font-family: "cairo";
+        }
+    </style>
+    <title>الصفحة الرئيسية</title>
+</head>
+
+<body style="background: #fdfdfd;">
+    <div class="w-[100%] h-[100vh] flex items-center justify-center" style="direction: rtl;">
+        <%if (data.length> 0) { %>
+            <div class="w-[100%] h-[100vh] bg-black opacity-75 absolute z-10" id="black-background"></div>
+            <div id="results-card"
+                class="sm:w-[97%] md:w-[75%] lg:w-[85%] xl:w-[45%] h-[70%] bg-[#fdfdfd] absolute mx-auto rounded-md z-10">
+                <div class="w-[80%] flex items-center justify-between mx-auto mt-8">
+                    <p class="text-[1.2rem] font-bold">
+                        <%=data[8]%> التسلسل (<%=data[9]%>)
+                    </p>
+                    <button id="close-btn" class="cursor-pointer">
+                        <img src="/close.svg" alt="menu icon">
+                    </button>
+                </div>
+                <div class="w-[60%] h-[70%] mt-20 mx-auto flex items-start justify-between">
+                    <div class="w-[100%] h-[80%] flex flex-col justify-between">
+                        <div class="w-[100%] flex items-center justify-between border-[3px] mt-2 p-2 rounded-md">
+                            <span class="text-[1.1rem] font-bold">الفاينل الاول</span>
+                            <span class="font-bold"><%= data[7]%></span>
+                        </div>
+                        <div class="w-[100%] flex items-center justify-between border-[3px] mt-2 p-2 rounded-md">
+                            <span class="text-[1.1rem] font-bold">الفاينل الثاني</span>
+                            <span class="font-bold"><%= data[6]%></span>
+                        </div>
+                        <div class="w-[100%] flex items-center justify-between border-[3px] mt-2 p-2 rounded-md">
+                            <span class="text-[1.1rem] font-bold">الفاينل الثالث</span>
+                            <span class="font-bold">
+                                <%= data[5]%>
+                            </span>
+                        </div>
+                        <div class="w-[100%] flex items-center justify-between border-[3px] mt-2 p-2 rounded-md">
+                            <span class="text-[1.1rem] font-bold">الكراس</span>
+                            <span class="font-bold">
+                                <%= data[4]%>
+                            </span>
+                        </div>
+                        <div class="w-[100%] flex items-center justify-between border-[3px] mt-2 p-2 rounded-md">
+                            <span class="text-[1.1rem] font-bold">المجموع</span>
+                            <span class="font-bold">
+                                <%= data[3]%>
+                            </span>
+                        </div>
+                        <div class="w-[100%] flex items-center justify-between border-[3px] mt-2 p-2 rounded-md">
+                            <span class="text-[1.1rem] font-bold">المعدل</span>
+                            <span class="font-bold">
+                                <%= data[2]%>
+                            </span>
+                        </div>
+                        <div class="w-[100%] flex items-center justify-between border-[3px] mt-2 p-2 rounded-md">
+                            <span class="text-[1.1rem] font-bold">النتيجة</span>
+                            <span class="font-bold">
+                                <%= data[1]%>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <%}%>
+                <div class="sm:w-[90%] lg:w-[72%] 2xl:w-[50%] sm:h-[82vh] md:h-[70vh] bg-white flex flex-col items-center justify-center rounded-md relative"
+                    style="box-shadow: 4px 3px 0px 2px #EEF1FF;">
+                    <div class="sm:w-[90%] lg:w-[72%] 2xl:w-[50%] flex items-center justify-between mb-3">
+                        <div class="sm:w-[26%] sm:text-[1.4em] md:text-[1.7em] h-[3px] bg-blue-400 rounded-lg"></div>
+                        <h1 class="text-custom_dark sm:text-[1.6em] md:text-[1.7em] font-bold">هلا بيك</h1>
+                        <div class="sm:w-[26%] sm:text-[1.4em] md:text-[1.7em] h-[3px] bg-blue-400 rounded-lg "></div>
+                    </div>
+                    <form action="/" method="POST" class="sm:w-[90%] lg:w-[70%] 2xl:w-[50%]  flex flex-col">
+                        <% if (messages.danger) { %>
+                            <span class="w-[100%] bg-red-100  mt-3 rounded-sm border-r-2 border-red-600 p-2">
+                                <%=messages.danger%>
+                            </span>
+                            <%}%>
+                                <label>
+                                    <input name="nameOrSerialNumber"
+                                        class="w-[100%] h-[47px] border-b border-b-light_green mt-5 rounded-[5px] p-2 outline-none placeholder-[#00000080]"
+                                        type="text" placeholder="اكتب الاسم او التسلسل" />
+                                </label>
+                                <button type="submit"
+                                    class="text-[#181818] bg-blue-500 text-custom_dark ml-auto mt-5 rounded-md p-2">
+                                    البحث على النتيجة
+                                </button>
+                    </form>
+                    <%- include("./layout/footer.ejs")%>
+                </div>
+    </div>
+    <script>
+        const closeBtn = document.querySelector("#close-btn");
+        const blackBackground = document.querySelector("#black-background");
+        const resultsCard = document.querySelector("#results-card");
+        closeBtn?.addEventListener("click", () => {
+            blackBackground.classList.toggle("hidden")
+            resultsCard.classList.toggle("hidden")
+        })
+    </script>
+</body>
+
+</html>

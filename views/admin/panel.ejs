@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/style.css">
+    <style>
+        @font-face {
+            font-family: "cairo";
+            src: url("../fonts/static/Cairo-Regular.ttf");
+            font-display: swap;
+        }
+
+        * {
+            font-family: "cairo";
+        }
+    </style>
+    <title>لوحة التحكم</title>
+</head>
+
+<body style="background: #fdfdfd;">
+    <div class="w-[100%] h-[100vh] flex items-center justify-center" style="direction: rtl;">
+        <div class="sm:w-[90%] lg:w-[72%] 2xl:w-[50%] sm:h-[82vh] md:h-[70vh] bg-white flex flex-col items-center justify-center rounded-md relative"
+            style="box-shadow: 4px 3px 0px 2px #EEF1FF;">
+            <div class="sm:w-[90%] lg:w-[72%] 2xl:w-[50%] flex items-center justify-between mb-3">
+                <div class="sm:w-[24%] md:w-[33%] lg:w-[36%] h-[3px] bg-blue-400 rounded-lg"></div>
+                <h1 class="text-custom_dark sm:text-[1.4em] md:text-[1.7em] font-bold">لوحة التحكم</h1>
+                <div class="sm:w-[24%] md:w-[33%] lg:w-[36%] h-[3px] bg-blue-400 rounded-lg "></div>
+            </div>
+            <div class="sm:w-[90%] lg:w-[72%] 2xl:w-[50%] flex flex-col mt-3">
+                <ul class="">
+                    <a href="/">
+                        <li class="w-[100%] bg-[#fdfdfd] hover:bg-slate-50 text-[1.2em] rounded-md p-2 cursor-pointer">
+                            الصفحة الرئيسية
+                        </li>
+                    </a>
+                    <a href="/admin/upload">
+                        <li
+                            class="w-[100%] bg-[#fdfdfd] hover:bg-slate-50 text-[1.2em] mt-3 rounded-md p-2 cursor-pointer">
+                            تحميل فايل
+                        </li>
+                    </a>
+                </ul>
+                <button onclick="logout()" class="w-[30%] bg-red-400 rounded-md mt-3 p-2">تسجيل خروج</button>
+            </div>
+            <%- include("../layout/footer.ejs")%>
+        </div>
+    </div>
+    <script>
+        const logout = async () => {
+            let res = await fetch("http://localhost:3000/admin/logout", { method: "POST" , credentials:"include"})
+            res = await res.json();
+            if (res.success) window.location = "/";
+        }
+    </script>
+</body>
+
+</html>

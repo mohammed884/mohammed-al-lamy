@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/style.css">
+    <!-- <link rel="stylesheet" href="styles/index.css"> -->
+    <style>
+        @font-face {
+            font-family: "cairo";
+            src: url("../fonts/static/Cairo-Regular.ttf");
+            font-display: swap;
+        }
+
+        * {
+            font-family: "cairo";
+        }
+    </style>
+    <title>تسجيل الدخول</title>
+</head>
+
+<body style="background: #fdfdfd;">
+    <div class="w-[100%] h-[100vh] flex items-center justify-center" style="direction: rtl;">
+        <div class="sm:w-[90%] lg:w-[72%] 2xl:w-[50%] sm:h-[82vh] md:h-[70vh] bg-white flex flex-col items-center justify-center rounded-md relative"
+            style="box-shadow: 4px 3px 0px 2px #EEF1FF;">
+            <div class="sm:w-[90%] lg:w-[72%] 2xl:w-[50%] flex items-center justify-between mb-3">
+                <div class="sm:w-[24%] md:w-[30%] h-[3px] bg-blue-400 rounded-lg"></div>
+                <h1 class="text-custom_dark sm:text-[1.4em] md:text-[1.7em] font-bold">تسجيل الدخول</h1>
+                <div class="sm:w-[24%] md:w-[30%] h-[3px] bg-blue-400 rounded-lg "></div>
+            </div>
+            <form action="/admin/login" method="POST" class="sm:w-[90%] lg:w-[70%] 2xl:w-[50%]  flex flex-col">
+                <% if (messages.danger) { %>
+                    <span class="w-[100%] bg-red-100  mt-3 rounded-sm border-r-2 border-red-600 p-2">
+                        <%=messages.danger%>
+                    </span>
+                    <%}%>
+                        <input type="password" autocomplete="off" name="password" class="
+                w-[100%] 
+                h-[47px] 
+                border-b
+                border-b-light_green
+                mt-5 
+                rounded-[5px]
+                p-2 
+                outline-none 
+                placeholder-[#00000080]" type="text" placeholder="اكتب رمز الحماية" />
+                        <button class="text-[#181818] bg-blue-500 text-custom_dark ml-auto mt-5 rounded-md p-2">تسجيل
+                            الدخول</button>
+            </form>
+            <%- include("../layout/footer.ejs")%>
+        </div>
+    </div>
+</body>
+
+</html>
