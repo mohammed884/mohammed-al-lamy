@@ -25,14 +25,14 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 router.get("/login", adminMiddleware.isLogin, (req, res) => {
     try {
-        res.render("./admin/login.ejs")
+        res.render("./admin/login.ejs", {isAdmin:req.cookies.accessToken ? true :false})
     } catch (err) {
         console.log(err);
     }
 })
 router.get("/panel", adminMiddleware.isAdmin, (req, res) => {
     try {
-        res.render("./admin/panel.ejs")
+        res.render("./admin/panel.ejs", {isAdmin:req.cookies.accessToken ? true :false})
     } catch (err) {
         console.log(err);
     }
@@ -40,7 +40,7 @@ router.get("/panel", adminMiddleware.isAdmin, (req, res) => {
 })
 router.get("/upload", adminMiddleware.isAdmin, (req, res) => {
     try {
-        res.render("./admin/upload.ejs")
+        res.render("./admin/upload.ejs", {isAdmin:req.cookies.accessToken ? true :false})
     } catch (err) {
         console.log(err);
     }

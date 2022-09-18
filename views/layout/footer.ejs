@@ -1,5 +1,10 @@
 <footer class="w-fit h-fit absolute bottom-2" style="font-family: sans-serif;">
     <div class="flex items-center justify-center">
+        <%if (isAdmin) {%>
+            
+            <a href="/admin/panel" class="text-blue-400 underline ml-2">لوحة التحكم</a>
+            <%}%>
+            
         <img src="/ghaniLogo.svg" alt="company logo" class="w-12 h-12">
         <p class="opacity-80">.Powered By Ghani Code</p>
     </div>

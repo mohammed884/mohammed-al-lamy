@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/", (req, res) => {
   try {
-    res.render("./index.ejs", {data:[]})
+    res.render("./index.ejs", {data:[], isAdmin:req.cookies.accessToken ? true :false})
   } catch (err) {
     console.log(err);
   }
