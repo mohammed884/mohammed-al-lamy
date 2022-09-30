@@ -17,11 +17,11 @@ router.post("/", async (req, res) => {
     for (let i = 0; i < data.length; i++) {
       const col = data[i];
       const serialNumber = col[col.length - 1][1];
-      const name = new RegExp(col[col.length - 2][1], "i");
+      const name = col[col.length - 2][1];
       if (!Number.isNaN(Number(userInfo)) && Number(serialNumber) === Number(userInfo)) {
         return res.render("./index.ejs", { results:col, isAdmin: req.cookies.accessToken ? true : false });
       }
-      if (name === userInfo) {
+      if (name === new RegExp(userInfo, "i")) {
         return res.render("./index.ejs", { results:col, isAdmin: req.cookies.accessToken ? true : false })
       }
     }
