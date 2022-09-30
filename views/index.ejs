@@ -28,9 +28,6 @@
             <div id="results-card"
                 class="sm:w-[97%] md:w-[75%] lg:w-[85%] xl:w-[45%] sm:h-[94%] md:h-[82%] lg:h-[78%] bg-[#fdfdfd] absolute mx-auto rounded-md z-10">
                 <div class="w-[80%] flex items-center justify-between mx-auto mt-8">
-                    <p class="text-[1.2rem] font-bold">
-                        <%=results[results.length - 2][1]%> التسلسل (<%=results[results.length - 1][1]%>)
-                    </p>
                     <button id="close-btn" class="cursor-pointer">
                         <img src="/close.svg" alt="menu icon">
                     </button>
@@ -40,16 +37,16 @@
                         <div class="w-fit mx-auto mb-3">
                             <p class="font-bold">نتائج الفيزياء للاستاذ محمد اللامي</p>
                         </div>
-                        <%results.forEach(result => {%>
-                            <%if (result[0] !== "" && result[1] !== "") { %>
+                        <%for(let i = results.length - 1; i > 0; i--) {%>
+                            <%if (results[i][0] !== "" && results[i][1] !== "") { %>
                             <div class="w-[100%] flex items-center justify-between border-[3px] mt-2 p-2 rounded-md">
-                                <span class="text-[1.1rem] font-bold"><%= result[0]%></span>
+                                <span class="text-[1.1rem] font-bold"><%= results[i][0]%></span>
                                 <span class="font-bold">
-                                    <%= result[1]%>
+                                    <%= results[i][1]%>
                                 </span>
                             </div>
                             <%}%>
-                        <%})%>
+                        <%}%>
                         <div class="mx-auto mt-3">
                             <span>
                                 في حال وجود اعتراض
