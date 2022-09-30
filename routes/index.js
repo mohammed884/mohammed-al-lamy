@@ -1,38 +1,36 @@
 const express = require('express');
+const fs = require('fs');
 const xlsx = require('node-xlsx');
 const path = require('path');
 const router = express.Router();
-
 router.get("/", (req, res) => {
   try {
-    res.render("./index.ejs", {data:[], isAdmin:req.cookies.accessToken ? true :false})
+    res.render("./index.ejs", { data: [], isAdmin: req.cookies.accessToken ? true : false })
   } catch (err) {
     console.log(err);
   }
 })
 router.post("/", async (req, res) => {
   try {
-    let nameOrSerialNumber = req.body.nameOrSerialNumber;
-    const workSheetsFromFile = xlsx.parse(`${path.resolve()}/public/uploads/data.xlsx`);
-    for (let i = 0; i < workSheetsFromFile.length; i++) {
-      const col = workSheetsFromFile[i];
-      for (let x = 0; x < col.data.length; x++) {
-        const data = col.data[x];
-        if (data.length > 8 && Number.isNaN(Number(nameOrSerialNumber)) && data[8] === nameOrSerialNumber) {
-          nameOrSerialNumber= ""
-          return res.render("./index.ejs", {data, isAdmin: req.cookies.accessToken ? true : false });
-        }
-        if (data.length > 8 && data[9] === Number(nameOrSerialNumber)) {
-          nameOrSerialNumber= ""
-          return res.render("./index.ejs", {data,isAdmin: req.cookies.accessToken ? true : false})
-        }
+    const userInfo = req.body.nameOrSerialNumber;
+    const filePath = `${path.resolve()}/public/uploads/data.json`;
+    const data = JSON.parse(fs.readFileSync(filePath, "utf8"))
+    for (let i = 0; i < data.length; i++) {
+      const col = data[i];
+      const serialNumber = col[col.length - 1][1];
+      const name = new RegExp(col[col.length - 2][1], "i");
+      if (!Number.isNaN(Number(userInfo)) && Number(serialNumber) === Number(userInfo)) {
+        return res.render("./index.ejs", { results:col, isAdmin: req.cookies.accessToken ? true : false });
+      }
+      if (name === userInfo) {
+        return res.render("./index.ejs", { results:col, isAdmin: req.cookies.accessToken ? true : false })
       }
     }
-    req.flash('danger', Number.isNaN(Number(nameOrSerialNumber)) ? "لا يوجد طالب بهذا الاسم" : "لا يوجد طالب بهذا التسلسل");
-    res.render("./index.ejs", {data:[],isAdmin: req.cookies.accessToken ? true : false})
-  } catch (e) {
+    req.flash('danger', Number.isNaN(Number(userInfo)) ? "لا يوجد طالب بهذا الاسم" : "لا يوجد طالب بهذا التسلسل");
+    res.render("./index.ejs", { data: [], isAdmin: req.cookies.accessToken ? true : false })
+  } catch (err) {
     console.log(err);
-    res.render("./index.ejs", {data:[],isAdmin: req.cookies.accessToken ? true : false})
+    res.render("./index.ejs", { data: [], isAdmin: req.cookies.accessToken ? true : false })
   }
 });
 module.exports = router;

@@ -1,11 +1,12 @@
 const jwt = require("jsonwebtoken")
-const dayjs = require("dayjs")()
+const dayjs = require("dayjs")();
 const express = require("express");
 const multer = require("multer");
-const path = require("path")
+const path = require("path");
+const fs = require("fs");
 const adminMiddleware = require("../middleware/admin")
 const router = express.Router();
-
+const csv = require("csv-parser");
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, path.resolve() + "/public/uploads")
@@ -31,7 +32,6 @@ router.get("/panel", adminMiddleware.isAdmin, (req, res) => {
     } catch (err) {
         console.log(err);
     }
-
 })
 router.get("/upload", adminMiddleware.isAdmin, (req, res) => {
     try {
@@ -40,15 +40,28 @@ router.get("/upload", adminMiddleware.isAdmin, (req, res) => {
         console.log(err);
     }
 })
-router.post("/upload", adminMiddleware.isAdmin, upload.single("file"), (req, res) => {
+router.post("/upload", adminMiddleware.isAdmin, upload.single("file"), async (req, res) => {
     try {
         let ext = path.extname(req.file.filename);
-        if (ext !== ".xlsx") {
-            req.flash("danger", "صيغة الفايل يجب ان تكون (xlsx)");
+        if (ext !== ".csv") {
+            req.flash("danger", "صيغة الفايل يجب ان تكون (csv)");
             return res.render("./admin/upload.ejs", { isAdmin: req.cookies.accessToken ? true : false })
-        }
+        };
+        const data = [];
+        const filePath = `${path.resolve()}/public/uploads/data.csv`
+        const stream = fs.createReadStream(filePath);
+        stream.pipe(csv({}))
+            .on("data", d => data.push(Object.entries(d)))
+            .on("end", () => {
+                fs.writeFile(`${path.resolve()}/public/uploads/data.json`, JSON.stringify(data), (err, data) => {
+                    if (err) throw err;
+                    fs.unlink(filePath, err => {
+                        if (err) throw err;
+                    });
+                })
+            })
         req.flash("success", "تم تحميل الفايل ينجاح")
-        res.render("./admin/upload.ejs", { isAdmin: req.cookies.accessToken ? true : false })
+        res.redirect("/admin/upload")
     } catch (err) {
         console.log(err);
         req.flash("danger", err.message)

@@ -23,14 +23,11 @@
 
 <body style="background: #fdfdfd;">
     <div class="w-[100%] h-[100vh] flex items-center justify-center" style="direction: rtl;">
-        <%if (data.length> 0) { %>
+        <%if (results.length> 0) { %>
             <div class="w-[100%] h-[100vh] bg-black opacity-75 absolute z-10" id="black-background"></div>
             <div id="results-card"
-                class="sm:w-[97%] md:w-[75%] lg:w-[85%] xl:w-[45%] sm:h-[94%] md:h-[82%] lg:h-[78%] bg-[#fdfdfd] absolute mx-auto rounded-md z-10">
-                <div class="w-[80%] flex items-center justify-between mx-auto mt-8">
-                    <p class="text-[1.2rem] font-bold">
-                        <%=data[8]%> التسلسل (<%=data[9]%>)
-                    </p>
+                class="sm:w-[97%] md:w-[75%] lg:w-[85%] xl:w-[45%] sm:h-[94%] md:h-[82%] lg:h-[90%] bg-[#fdfdfd] absolute mx-auto rounded-md z-10">
+                <div class="w-[80%] flex items-center justify-start mx-auto mt-8">
                     <button id="close-btn" class="cursor-pointer">
                         <img src="/close.svg" alt="menu icon">
                     </button>
@@ -40,48 +37,16 @@
                         <div class="w-fit mx-auto mb-3">
                             <p class="font-bold">نتائج الفيزياء للاستاذ محمد اللامي</p>
                         </div>
-                        <div class="w-[100%] flex items-center justify-between border-[3px] mt-2 p-2 rounded-md">
-                            <span class="text-[1.1rem] font-bold">الفاينل الاول</span>
-                            <span class="font-bold">
-                                <%= data[7]%>
-                            </span>
-                        </div>
-                        <div class="w-[100%] flex items-center justify-between border-[3px] mt-2 p-2 rounded-md">
-                            <span class="text-[1.1rem] font-bold">الفاينل الثاني</span>
-                            <span class="font-bold">
-                                <%= data[6]%>
-                            </span>
-                        </div>
-                        <div class="w-[100%] flex items-center justify-between border-[3px] mt-2 p-2 rounded-md">
-                            <span class="text-[1.1rem] font-bold">الفاينل الثالث</span>
-                            <span class="font-bold">
-                                <%= data[5]%>
-                            </span>
-                        </div>
-                        <div class="w-[100%] flex items-center justify-between border-[3px] mt-2 p-2 rounded-md">
-                            <span class="text-[1.1rem] font-bold">الكراس</span>
-                            <span class="font-bold">
-                                <%= data[4]%>
-                            </span>
-                        </div>
-                        <div class="w-[100%] flex items-center justify-between border-[3px] mt-2 p-2 rounded-md">
-                            <span class="text-[1.1rem] font-bold">المجموع</span>
-                            <span class="font-bold">
-                                <%= data[3]%>
-                            </span>
-                        </div>
-                        <div class="w-[100%] flex items-center justify-between border-[3px] mt-2 p-2 rounded-md">
-                            <span class="text-[1.1rem] font-bold">المعدل</span>
-                            <span class="font-bold">
-                                <%= data[2]%>
-                            </span>
-                        </div>
-                        <div class="w-[100%] flex items-center justify-between border-[3px] mt-2 p-2 rounded-md">
-                            <span class="text-[1.1rem] font-bold">النتيجة</span>
-                            <span class="font-bold">
-                                <%= data[1]%>
-                            </span>
-                        </div>
+                        <%results.forEach(result => {%>
+                            <%if (result[0] !== "" && result[1] !== "") { %>
+                            <div class="w-[100%] flex items-center justify-between border-[3px] mt-2 p-2 rounded-md">
+                                <span class="text-[1.1rem] font-bold"><%= result[0]%></span>
+                                <span class="font-bold">
+                                    <%= result[1]%>
+                                </span>
+                            </div>
+                            <%}%>
+                        <%})%>
                         <div class="mx-auto mt-3">
                             <span>
                                 في حال وجود اعتراض
