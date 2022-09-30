@@ -1,11 +1,10 @@
 const express = require('express');
 const fs = require('fs');
-const xlsx = require('node-xlsx');
 const path = require('path');
 const router = express.Router();
 router.get("/", (req, res) => {
   try {
-    res.render("./index.ejs", { data: [], isAdmin: req.cookies.accessToken ? true : false })
+    res.render("./index.ejs", { results: [], isAdmin: req.cookies.accessToken ? true : false })
   } catch (err) {
     console.log(err);
   }
@@ -27,10 +26,10 @@ router.post("/", async (req, res) => {
       }
     }
     req.flash('danger', Number.isNaN(Number(userInfo)) ? "لا يوجد طالب بهذا الاسم" : "لا يوجد طالب بهذا التسلسل");
-    res.render("./index.ejs", { data: [], isAdmin: req.cookies.accessToken ? true : false })
+    res.render("./index.ejs", { results: [], isAdmin: req.cookies.accessToken ? true : false })
   } catch (err) {
     console.log(err);
-    res.render("./index.ejs", { data: [], isAdmin: req.cookies.accessToken ? true : false })
+    res.render("./index.ejs", { results: [], isAdmin: req.cookies.accessToken ? true : false })
   }
 });
 module.exports = router;
