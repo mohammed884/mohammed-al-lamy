@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
       if (!Number.isNaN(Number(userInfo)) && Number(serialNumber) === Number(userInfo)) {
         return res.render("./index.ejs", { results:col, isAdmin: req.cookies.accessToken ? true : false });
       }
-      if (name === new RegExp(userInfo, "i")) {
+      if (new RegExp(userInfo, "i").test(name)) {
         return res.render("./index.ejs", { results:col, isAdmin: req.cookies.accessToken ? true : false })
       }
     }
